@@ -19,7 +19,7 @@ $ npm install -g frtz
 $ frtz COMMAND
 running command...
 $ frtz (-v|--version|version)
-frtz/0.0.0 win32-x64 node-v10.14.1
+frtz/0.0.1 win32-x64 node-v10.14.1
 $ frtz --help [COMMAND]
 USAGE
   $ frtz COMMAND
@@ -29,7 +29,7 @@ USAGE
 # Commands
 <!-- commands -->
 * [`frtz help [COMMAND]`](#frtz-help-command)
-* [`frtz network:devices`](#frtz-networkdevices)
+* [`frtz network:devices [ACTION]`](#frtz-networkdevices-action)
 * [`frtz setup`](#frtz-setup)
 
 ## `frtz help [COMMAND]`
@@ -49,27 +49,36 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.0.1/src\commands\help.ts)_
 
-## `frtz network:devices`
+## `frtz network:devices [ACTION]`
 
-Describe the command here
+interact with network devices
 
 ```
 USAGE
-  $ frtz network:devices
+  $ frtz network:devices [ACTION]
+
+ARGUMENTS
+  ACTION  [default: list] what to do with network devices
 
 OPTIONS
-  -n, --name=name  name to print
+  -h, --host=host          set hostname
+  -p, --password=password  set password
+  -s, --save               save output to dataDir
+  -u, --user=user          set username
+  -x, --extended           show extra columns
+  --output=csv|json|yaml   output in a more machine friendly format
 
 DESCRIPTION
-  ...
-  Extra documentation goes here
+  provide an argument to choose an action for the network devices
+  choose from:
+  - list
 ```
 
-_See code: [src\commands\network\devices.js](https://github.com/vaaski/frtz/blob/v0.0.0/src\commands\network\devices.js)_
+_See code: [src\commands\network\devices.js](https://github.com/vaaski/frtz/blob/v0.0.1/src\commands\network\devices.js)_
 
 ## `frtz setup`
 
-set up frtz cli to save your hostname, username and optionally password.
+save configuration for fast access
 
 ```
 USAGE
@@ -78,8 +87,14 @@ USAGE
 OPTIONS
   -h, --host=host          set hostname
   -p, --password=password  set password
-  -u, --user=user          set username
+  -u, --username=username  set username
+
+DESCRIPTION
+  save:
+  -hostname
+  -username
+  -password (optional)
 ```
 
-_See code: [src\commands\setup.js](https://github.com/vaaski/frtz/blob/v0.0.0/src\commands\setup.js)_
+_See code: [src\commands\setup.js](https://github.com/vaaski/frtz/blob/v0.0.1/src\commands\setup.js)_
 <!-- commandsstop -->
