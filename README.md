@@ -1,7 +1,7 @@
 frtz
 ====
 
-a cli to access your FRITZ!Box configuration without using the web UI
+A cli to access your FRITZ!Box configuration without using the web UI
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/frtz.svg)](https://npmjs.org/package/frtz)

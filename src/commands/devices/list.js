@@ -18,9 +18,16 @@ class ListCommand extends Command {
     const config = await readPromise(
       path.join(this.config.configDir, "config.json")
     )
-    Object.assign(config, flags)
+    let profile
+    if (flags.profile)
+      if (config.profiles[flags.profile])
+        profile = config.profiles[flags.profile]
+      else this.error("This profile does not exist")
+    else profile = config
 
-    if (!config.password)
+    profile = { ...profile, ...flags }
+
+    if (!profile.password)
       this.error(
         "a password must be provided either as a flag or via setup config (run frtz setup)"
       )
@@ -29,7 +36,7 @@ class ListCommand extends Command {
     try {
       const loginStarted = Number(new Date())
       cli.action.start("logging in")
-      login = await auth.login(config)
+      login = await auth.login(profile)
       const loginTime = Number(new Date()) - loginStarted
       cli.action.stop(`logged in (${Number((loginTime / 1000).toFixed(2))}s)`)
 
@@ -37,7 +44,7 @@ class ListCommand extends Command {
       cli.action.start("getting device list, please be paitent")
       const data = await network.getDevices({
         SID: login.SID,
-        host: config.host,
+        host: profile.host,
       })
       const listTime = Number(new Date()) - listStarted
       cli.action.stop(`got list (${Number((listTime / 1000).toFixed(2))}s)`)
@@ -76,19 +83,19 @@ class ListCommand extends Command {
         this.log("")
         cli.action.start(
           `saving list to ${path.join(
-            this.config.dataDir,
+            this.profile.dataDir,
             "network-devices.json"
           )}`
         )
 
         fs.writeFileSync(
-          path.join(this.config.dataDir, "network-devices.json"),
+          path.join(this.profile.dataDir, "network-devices.json"),
           JSON.stringify(data)
         )
         cli.action.stop("saved")
       }
     } catch (error) {
-      cli.action.stop()
+      cli.action.stop("error")
       console.log(error)
     }
   }
@@ -99,10 +106,11 @@ ListCommand.description = `list network devices.`
 ListCommand.args = []
 
 ListCommand.flags = {
-  host: flg.string({ char: "h", description: "set hostname" }),
-  user: flg.string({ char: "u", description: "set username" }),
-  password: flg.string({ char: "p", description: "set password" }),
-  save: flg.boolean({ char: "s", description: "save output to dataDir" }),
+  host: flg.string({ char: "h", description: "Set hostname" }),
+  user: flg.string({ char: "u", description: "Set username" }),
+  password: flg.string({ char: "p", description: "Set password" }),
+  save: flg.boolean({ char: "s", description: "Save output to dataDir" }),
+  profile: flg.string({ char: "P", description: "Use a profile" }),
   ...cli.table.flags({ only: ["extended", "output"] }),
 }
 

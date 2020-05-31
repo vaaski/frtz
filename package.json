@@ -32,6 +32,11 @@
   ],
   "homepage": "https://github.com/vaaski/frtz",
   "keywords": [
+    "frtz",
+    "Fritz!Box",
+    "router",
+    "config",
+    "cli",
     "oclif"
   ],
   "license": "MIT",
