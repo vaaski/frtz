@@ -1,7 +1,7 @@
 {
   "name": "frtz",
   "description": "Configure and monitor your FRITZ!Box directly from the command line.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "vaaski @vaaski",
   "bin": {
     "frtz": "./bin/run"
