@@ -84,7 +84,7 @@ SetupCommand.flags = {
   host: flg.string({ char: "h", description: "Set hostname" }),
   username: flg.string({ char: "u", description: "Set username" }),
   password: flg.string({ char: "p", description: "Set password" }),
-  profile: flg.string({ char: "P", description: "Save it to a profile" }),
+  profile: flg.string({ char: "P", description: "Save to a profile" }),
 }
 
 module.exports = SetupCommand
