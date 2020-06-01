@@ -19,7 +19,7 @@ $ npm install -g frtz
 $ frtz COMMAND
 running command...
 $ frtz (-v|--version|version)
-frtz/0.1.0 win32-x64 node-v10.14.1
+frtz/0.2.0 win32-x64 node-v12.17.0
 $ frtz --help [COMMAND]
 USAGE
   $ frtz COMMAND
@@ -50,7 +50,7 @@ OPTIONS
   --output=csv|json|yaml   output in a more machine friendly format
 ```
 
-_See code: [src\commands\devices\list.js](https://github.com/vaaski/frtz/blob/v0.1.0/src\commands\devices\list.js)_
+_See code: [src\commands\devices\list.js](https://github.com/vaaski/frtz/blob/v0.2.0/src\commands\devices\list.js)_
 
 ## `frtz help [COMMAND]`
 
@@ -78,7 +78,7 @@ USAGE
   $ frtz setup
 
 OPTIONS
-  -P, --profile=profile    Save it to a profile
+  -P, --profile=profile    Save to a profile
   -h, --host=host          Set hostname
   -p, --password=password  Set password
   -u, --username=username  Set username
@@ -92,5 +92,5 @@ DESCRIPTION
   You can also save it to a specific profile.
 ```
 
-_See code: [src\commands\setup.js](https://github.com/vaaski/frtz/blob/v0.1.0/src\commands\setup.js)_
+_See code: [src\commands\setup.js](https://github.com/vaaski/frtz/blob/v0.2.0/src\commands\setup.js)_
 <!-- commandsstop -->
