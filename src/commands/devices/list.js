@@ -1,7 +1,7 @@
 const { Command, flags: flg } = require("@oclif/command")
 const fs = require("fs")
 const path = require("path")
-const { auth, network } = require("frtz-core")
+const { network } = require("frtz-core")
 const { cli } = require("cli-ux")
 const { conf, cache, readFile, login, extendLogin } = require("../../shared")
 
@@ -38,6 +38,7 @@ class ListCommand extends Command {
       const listStarted = Number(new Date())
       cli.action.start("getting device list, please be paitent")
       const data = await network.getDevices({ SID, host: profile.host })
+      await extendLogin(this)
       const listTime = Number(new Date()) - listStarted
       cli.action.stop(`got list (${Number((listTime / 1000).toFixed(2))}s)`)
 
@@ -89,7 +90,7 @@ class ListCommand extends Command {
       fs.writeFileSync(cache(this), JSON.stringify(cacheData))
     } catch (error) {
       cli.action.stop("error")
-      console.log(error)
+      this.error(error)
     }
   }
 }
