@@ -1,22 +1,13 @@
 const { Command, flags: flg } = require("@oclif/command")
 const fs = require("fs")
-const path = require("path")
 const { cli } = require("cli-ux")
-
-const readPromise = (...arg) =>
-  new Promise(res => {
-    fs.readFile(...arg, (err, data) => {
-      if (err) res({})
-      else res(JSON.parse(data))
-    })
-  })
+const { conf, readFile } = require("../shared")
 
 class SetupCommand extends Command {
   async run() {
     const { flags } = this.parse(SetupCommand)
-    const oldConfig = await readPromise(
-      path.join(this.config.configDir, "config.json")
-    )
+    // const oldConfig = JSON.parse(fs.readFileSync(conf(this)))
+    const oldConfig = await readFile(conf(this))
     const config = {}
     let newConfig = { profiles: { ...oldConfig.profiles } }
     let profile = false
@@ -65,10 +56,7 @@ class SetupCommand extends Command {
     if (profile) newConfig.profiles[profile] = config
     else newConfig = config
 
-    fs.writeFileSync(
-      path.join(this.config.configDir, "config.json"),
-      JSON.stringify({ ...oldConfig, ...newConfig })
-    )
+    fs.writeFileSync(conf(this), JSON.stringify({ ...oldConfig, ...newConfig }))
   }
 }
 

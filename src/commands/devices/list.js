@@ -3,21 +3,13 @@ const fs = require("fs")
 const path = require("path")
 const { auth, network } = require("frtz-core")
 const { cli } = require("cli-ux")
-
-const readPromise = (...arg) =>
-  new Promise(res => {
-    fs.readFile(...arg, (err, data) => {
-      if (err) res({})
-      else res(JSON.parse(data))
-    })
-  })
+const { conf, cache, readFile, login, extendLogin } = require("../../shared")
 
 class ListCommand extends Command {
   async run() {
     const { flags } = this.parse(ListCommand)
-    const config = await readPromise(
-      path.join(this.config.configDir, "config.json")
-    )
+    const config = await readFile(conf(this))
+
     let profile
     if (flags.profile)
       if (config.profiles[flags.profile])
@@ -32,20 +24,20 @@ class ListCommand extends Command {
         "a password must be provided either as a flag or via setup config (run frtz setup)"
       )
 
-    let login
     try {
       const loginStarted = Number(new Date())
       cli.action.start("logging in")
-      login = await auth.login(profile)
+      const { cached, SID } = await login(profile, this)
       const loginTime = Number(new Date()) - loginStarted
-      cli.action.stop(`logged in (${Number((loginTime / 1000).toFixed(2))}s)`)
+      cli.action.stop(
+        `logged in ${cached ? "from cache " : ""}(${Number(
+          (loginTime / 1000).toFixed(2)
+        )}s)`
+      )
 
       const listStarted = Number(new Date())
       cli.action.start("getting device list, please be paitent")
-      const data = await network.getDevices({
-        SID: login.SID,
-        host: profile.host,
-      })
+      const data = await network.getDevices({ SID, host: profile.host })
       const listTime = Number(new Date()) - listStarted
       cli.action.stop(`got list (${Number((listTime / 1000).toFixed(2))}s)`)
 
@@ -92,6 +84,9 @@ class ListCommand extends Command {
         cli.action.stop("saved")
         this.log(`saved to ${saveLocation}`)
       }
+
+      const cacheData = { devices: [...data.active, ...data.passive] }
+      fs.writeFileSync(cache(this), JSON.stringify(cacheData))
     } catch (error) {
       cli.action.stop("error")
       console.log(error)
