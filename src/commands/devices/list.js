@@ -81,18 +81,16 @@ class ListCommand extends Command {
 
       if (flags.save) {
         this.log("")
-        cli.action.start(
-          `saving list to ${path.join(
-            this.profile.dataDir,
-            "network-devices.json"
-          )}`
+        const saveLocation = path.join(
+          this.config.dataDir,
+          "network-devices.json"
         )
 
-        fs.writeFileSync(
-          path.join(this.profile.dataDir, "network-devices.json"),
-          JSON.stringify(data)
-        )
+        cli.action.start("saving list")
+
+        fs.writeFileSync(saveLocation, JSON.stringify(data))
         cli.action.stop("saved")
+        this.log(`saved to ${saveLocation}`)
       }
     } catch (error) {
       cli.action.stop("error")
