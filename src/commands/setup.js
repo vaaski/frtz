@@ -6,7 +6,6 @@ const { conf, readFile } = require("../shared")
 class SetupCommand extends Command {
   async run() {
     const { flags } = this.parse(SetupCommand)
-    // const oldConfig = JSON.parse(fs.readFileSync(conf(this)))
     const oldConfig = await readFile(conf(this))
     const config = {}
     let newConfig = { profiles: { ...oldConfig.profiles } }
@@ -66,13 +65,13 @@ This saves:
 -Username
 -Password (optional)
 
-You can also save it to a specific profile.`
+You can also save it to a specific profile using -P.`
 
 SetupCommand.flags = {
-  host: flg.string({ char: "h", description: "Set hostname" }),
-  username: flg.string({ char: "u", description: "Set username" }),
-  password: flg.string({ char: "p", description: "Set password" }),
-  profile: flg.string({ char: "P", description: "Save to a profile" }),
+  host: flg.string({ char: "h", description: "set hostname" }),
+  username: flg.string({ char: "u", description: "set username" }),
+  password: flg.string({ char: "p", description: "set password" }),
+  profile: flg.string({ char: "P", description: "save to a profile" }),
 }
 
 module.exports = SetupCommand

@@ -95,16 +95,20 @@ class ListCommand extends Command {
   }
 }
 
-ListCommand.description = `list network devices.`
+ListCommand.description = `List both online and offline devices.`
+
+ListCommand.aliases = ["list", "l"]
+
+ListCommand.examples = ["$ frtz list -s -x -P work"]
 
 ListCommand.args = []
 
 ListCommand.flags = {
-  host: flg.string({ char: "h", description: "Set hostname" }),
-  user: flg.string({ char: "u", description: "Set username" }),
-  password: flg.string({ char: "p", description: "Set password" }),
-  save: flg.boolean({ char: "s", description: "Save output to dataDir" }),
-  profile: flg.string({ char: "P", description: "Use a profile" }),
+  host: flg.string({ char: "h", description: "set hostname" }),
+  user: flg.string({ char: "u", description: "set username" }),
+  password: flg.string({ char: "p", description: "set password" }),
+  save: flg.boolean({ char: "s", description: "save output to dataDir" }),
+  profile: flg.string({ char: "P", description: "use a profile" }),
   ...cli.table.flags({ only: ["extended", "output"] }),
 }
 

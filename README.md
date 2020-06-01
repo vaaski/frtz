@@ -1,32 +1,48 @@
-frtz
-====
+# frtz
 
 A cli to access your FRITZ!Box configuration without using the web UI
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/frtz.svg)](https://npmjs.org/package/frtz)
-[![Downloads/week](https://img.shields.io/npm/dw/frtz.svg)](https://npmjs.org/package/frtz)
-[![License](https://img.shields.io/npm/l/frtz.svg)](https://github.com/vaaski/frtz/blob/master/package.json)
+[![Version](https://img.shields.io/npm/v/frtz.svg?style=for-the-badge)](https://npmjs.org/package/frtz)
+[![Downloads/week](https://img.shields.io/npm/dw/frtz.svg?style=for-the-badge)](https://npmjs.org/package/frtz)
+[![License](https://img.shields.io/npm/l/frtz.svg?style=for-the-badge)](https://github.com/vaaski/frtz/blob/master/package.json)
+[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg?style=for-the-badge)](https://oclif.io)
 
-<!-- toc -->
 * [Usage](#usage)
 * [Commands](#commands)
-<!-- tocstop -->
+
 # Usage
-<!-- usage -->
+
 ```sh-session
 $ npm install -g frtz
-$ frtz COMMAND
-running command...
-$ frtz (-v|--version|version)
-frtz/0.2.0 win32-x64 node-v12.17.0
-$ frtz --help [COMMAND]
+
+$ frtz setup # this saves your hostname, username and optionally password to the config file
+$ frtz devices:list # list network devices
+
+$ frtz --help devices:list
+List both online and offline devices.
+
 USAGE
-  $ frtz COMMAND
-...
+  $ frtz devices:list
+
+OPTIONS
+  -P, --profile=profile    use a profile
+  -h, --host=host          set hostname
+  -p, --password=password  set password
+  -s, --save               save output to dataDir
+  -u, --user=user          set username
+  -x, --extended           show extra columns
+  --output=csv|json|yaml   output in a more machine friendly format
+
+ALIASES
+  $ frtz list
+  $ frtz l
+
+EXAMPLE
+  $ frtz list -s -x -P work
 ```
-<!-- usagestop -->
+
 # Commands
+
 <!-- commands -->
 * [`frtz devices:list`](#frtz-deviceslist)
 * [`frtz help [COMMAND]`](#frtz-help-command)
@@ -34,20 +50,27 @@ USAGE
 
 ## `frtz devices:list`
 
-list network devices.
+List both online and offline devices.
 
 ```
 USAGE
   $ frtz devices:list
 
 OPTIONS
-  -P, --profile=profile    Use a profile
-  -h, --host=host          Set hostname
-  -p, --password=password  Set password
-  -s, --save               Save output to dataDir
-  -u, --user=user          Set username
+  -P, --profile=profile    use a profile
+  -h, --host=host          set hostname
+  -p, --password=password  set password
+  -s, --save               save output to dataDir
+  -u, --user=user          set username
   -x, --extended           show extra columns
   --output=csv|json|yaml   output in a more machine friendly format
+
+ALIASES
+  $ frtz list
+  $ frtz l
+
+EXAMPLE
+  $ frtz list -s -x -P work
 ```
 
 _See code: [src\commands\devices\list.js](https://github.com/vaaski/frtz/blob/v0.2.0/src\commands\devices\list.js)_
