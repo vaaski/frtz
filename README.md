@@ -3,6 +3,7 @@
 A cli to access your FRITZ!Box configuration without using the web UI
 
 [![Version](https://img.shields.io/npm/v/frtz.svg?style=for-the-badge)](https://npmjs.org/package/frtz)
+[![Uses](https://img.shields.io/badge/USES-FRTZ--CORE-3E2E50?style=for-the-badge)](https://github.com/vaaski/frtz-core)
 [![Downloads/week](https://img.shields.io/npm/dw/frtz.svg?style=for-the-badge)](https://npmjs.org/package/frtz)
 [![License](https://img.shields.io/npm/l/frtz.svg?style=for-the-badge)](https://github.com/vaaski/frtz/blob/master/package.json)
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg?style=for-the-badge)](https://oclif.io)
