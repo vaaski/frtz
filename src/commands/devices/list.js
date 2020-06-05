@@ -8,7 +8,8 @@ const { conf, cache, readFile, login, extendLogin } = require("../../shared")
 class ListCommand extends Command {
   async run() {
     const { flags } = this.parse(ListCommand)
-    const config = await readFile(conf(this, flags.profile))
+    let config = await readFile(conf(this, flags.profile))
+    config = { ...flags, ...config }
 
     if (!config.password)
       this.error(
@@ -100,7 +101,7 @@ ListCommand.args = []
 
 ListCommand.flags = {
   host: flg.string({ char: "h", description: "set hostname" }),
-  user: flg.string({ char: "u", description: "set username" }),
+  username: flg.string({ char: "u", description: "set username" }),
   password: flg.string({ char: "p", description: "set password" }),
   save: flg.boolean({ char: "s", description: "save output to dataDir" }),
   profile: flg.string({ char: "P", description: "use a profile" }),
