@@ -1,15 +1,12 @@
 const { Command, flags: flg } = require("@oclif/command")
 const fs = require("fs")
-const path = require("path")
 const { cli } = require("cli-ux")
-const { conf, readFile } = require("../shared")
+const { conf } = require("../shared")
 
 class SetupCommand extends Command {
   async run() {
     const { flags } = this.parse(SetupCommand)
-    const oldConfig = await readFile(conf(this))
     const config = {}
-    let newConfig = { profiles: { ...oldConfig.profiles } }
     let profile = false
 
     if (flags.host) config.host = flags.host
@@ -53,11 +50,7 @@ class SetupCommand extends Command {
         profile = await cli.prompt("Profile")
     }
 
-    if (profile) newConfig.profiles[profile] = config
-    else newConfig = config
-
-    fs.writeFileSync(conf(this), JSON.stringify({ ...oldConfig, ...newConfig }))
-    fs.unlinkSync(path.join(this.config.cacheDir, "loginCache.json"))
+    fs.writeFileSync(conf(this, profile), JSON.stringify(config))
   }
 }
 

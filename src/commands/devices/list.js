@@ -8,18 +8,9 @@ const { conf, cache, readFile, login, extendLogin } = require("../../shared")
 class ListCommand extends Command {
   async run() {
     const { flags } = this.parse(ListCommand)
-    const config = await readFile(conf(this))
+    const config = await readFile(conf(this, flags.profile))
 
-    let profile
-    if (flags.profile)
-      if (config.profiles[flags.profile])
-        profile = config.profiles[flags.profile]
-      else this.error("This profile does not exist")
-    else profile = config
-
-    profile = { ...profile, ...flags }
-
-    if (!profile.password)
+    if (!config.password)
       this.error(
         "a password must be provided either as a flag or via setup config (run frtz setup)"
       )
@@ -27,7 +18,7 @@ class ListCommand extends Command {
     try {
       const loginStarted = Number(new Date())
       cli.action.start("logging in")
-      const { cached, SID } = await login(profile, this, flags.profile)
+      const { cached, SID } = await login(config, this, flags.profile)
       const loginTime = Number(new Date()) - loginStarted
       cli.action.stop(
         `logged in ${cached ? "from cache " : ""}(${Number(
@@ -37,8 +28,8 @@ class ListCommand extends Command {
 
       const listStarted = Number(new Date())
       cli.action.start("getting device list, please be paitent")
-      const data = await network.getDevices({ SID, host: profile.host })
-      await extendLogin(this)
+      const data = await network.getDevices({ SID, host: config.host })
+      await extendLogin(this, flags.profile)
       const listTime = Number(new Date()) - listStarted
       cli.action.stop(`got list (${Number((listTime / 1000).toFixed(2))}s)`)
 
@@ -86,8 +77,12 @@ class ListCommand extends Command {
         this.log(`saved to ${saveLocation}`)
       }
 
-      const cacheData = { devices: [...data.active, ...data.passive] }
-      fs.writeFileSync(cache(this), JSON.stringify(cacheData))
+      const oldCache = readFile(cache(this, flags.profile))
+      const cacheData = {
+        ...oldCache,
+        devices: [...data.active, ...data.passive],
+      }
+      fs.writeFileSync(cache(this, flags.profile), JSON.stringify(cacheData))
     } catch (error) {
       cli.action.stop("error")
       this.error(error)
