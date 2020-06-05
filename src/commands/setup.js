@@ -1,5 +1,6 @@
 const { Command, flags: flg } = require("@oclif/command")
 const fs = require("fs")
+const path = require("path")
 const { cli } = require("cli-ux")
 const { conf, readFile } = require("../shared")
 
@@ -56,6 +57,7 @@ class SetupCommand extends Command {
     else newConfig = config
 
     fs.writeFileSync(conf(this), JSON.stringify({ ...oldConfig, ...newConfig }))
+    fs.unlinkSync(path.join(this.config.cacheDir, "loginCache.json"))
   }
 }
 

@@ -27,7 +27,7 @@ class ListCommand extends Command {
     try {
       const loginStarted = Number(new Date())
       cli.action.start("logging in")
-      const { cached, SID } = await login(profile, this)
+      const { cached, SID } = await login(profile, this, flags.profile)
       const loginTime = Number(new Date()) - loginStarted
       cli.action.stop(
         `logged in ${cached ? "from cache " : ""}(${Number(

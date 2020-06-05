@@ -6,7 +6,7 @@
 <hr>
 
 <p align="center">
-  A cli to access your FRITZ!Box configuration without using it's web UI
+  Access your FRITZ!Box configuration from the command line without using it's web UI.
 </p>
 
 <p align="center">

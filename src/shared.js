@@ -24,17 +24,17 @@ const extendLogin = async t => {
   )
 }
 
-const login = async (options, t) => {
+const login = async (options, t, profile = "default") => {
   const loginCache = await readFile(
     path.join(t.config.cacheDir, "loginCache.json")
   )
-  if (loginCache[options.host] && loginCache[options.host].expires > Date.now())
-    return { ...loginCache[options.host], cached: true }
+  if (loginCache[profile] && loginCache[profile].expires > Date.now())
+    return { ...loginCache[profile], cached: true }
 
   const _login = await auth.login(options)
   fs.writeFileSync(
     path.join(t.config.cacheDir, "loginCache.json"),
-    JSON.stringify({ ...loginCache, [options.host]: _login })
+    JSON.stringify({ ...loginCache, [profile]: _login })
   )
   return _login
 }
