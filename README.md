@@ -65,7 +65,7 @@ EXAMPLE
 
 <!-- commands -->
 * [`frtz devices:list`](#frtz-deviceslist)
-* [`frtz devices:wake`](#frtz-deviceswake)
+* [`frtz devices:wake DEVICE`](#frtz-deviceswake-device)
 * [`frtz help [COMMAND]`](#frtz-help-command)
 * [`frtz setup`](#frtz-setup)
 
@@ -82,7 +82,7 @@ OPTIONS
   -h, --host=host          set hostname
   -p, --password=password  set password
   -s, --save               save output to dataDir
-  -u, --user=user          set username
+  -u, --username=username  set username
   -x, --extended           show extra columns
   --output=csv|json|yaml   output in a more machine friendly format
 
@@ -94,25 +94,35 @@ EXAMPLE
   $ frtz list -s -x -P work
 ```
 
-_See code: [src\commands\devices\list.js](https://github.com/vaaski/frtz/blob/v0.2.1/src\commands\devices\list.js)_
+_See code: [src\commands\devices\list.js](https://github.com/vaaski/frtz/blob/v0.3.0/src\commands\devices\list.js)_
 
-## `frtz devices:wake`
+## `frtz devices:wake DEVICE`
 
-Describe the command here
+Wake a device from sleep with your FRITZ!Box
 
 ```
 USAGE
-  $ frtz devices:wake
+  $ frtz devices:wake DEVICE
+
+ARGUMENTS
+  DEVICE  The device to wake. Can be IP address, hostname or mac address.
 
 OPTIONS
-  -n, --name=name  name to print
+  -P, --profile=profile    use a profile
+  -h, --host=host          set hostname
+  -p, --password=password  set password
+  -u, --username=username  set username
 
-DESCRIPTION
-  ...
-  Extra documentation goes here
+ALIASES
+  $ frtz wake
+  $ frtz w
+
+EXAMPLES
+  $ frtz wake 127.0.0.1
+  $ frtz w mycomputer
 ```
 
-_See code: [src\commands\devices\wake.js](https://github.com/vaaski/frtz/blob/v0.2.1/src\commands\devices\wake.js)_
+_See code: [src\commands\devices\wake.js](https://github.com/vaaski/frtz/blob/v0.3.0/src\commands\devices\wake.js)_
 
 ## `frtz help [COMMAND]`
 
@@ -154,5 +164,5 @@ DESCRIPTION
   You can also save it to a specific profile using -P.
 ```
 
-_See code: [src\commands\setup.js](https://github.com/vaaski/frtz/blob/v0.2.1/src\commands\setup.js)_
+_See code: [src\commands\setup.js](https://github.com/vaaski/frtz/blob/v0.3.0/src\commands\setup.js)_
 <!-- commandsstop -->
