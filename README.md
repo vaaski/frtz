@@ -94,7 +94,7 @@ EXAMPLE
   $ frtz list -s -x -P work
 ```
 
-_See code: [src\commands\devices\list.js](https://github.com/vaaski/frtz/blob/v0.3.0/src\commands\devices\list.js)_
+_See code: [src/commands/devices/list.js](https://github.com/vaaski/frtz/blob/v0.3.0/src/commands/devices/list.js)_
 
 ## `frtz devices:wake DEVICE`
 
@@ -122,7 +122,7 @@ EXAMPLES
   $ frtz w mycomputer
 ```
 
-_See code: [src\commands\devices\wake.js](https://github.com/vaaski/frtz/blob/v0.3.0/src\commands\devices\wake.js)_
+_See code: [src/commands/devices/wake.js](https://github.com/vaaski/frtz/blob/v0.3.0/src/commands/devices/wake.js)_
 
 ## `frtz help [COMMAND]`
 
@@ -139,7 +139,7 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.0.1/src\commands\help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.0.1/src/commands/help.ts)_
 
 ## `frtz setup`
 
@@ -164,5 +164,5 @@ DESCRIPTION
   You can also save it to a specific profile using -P.
 ```
 
-_See code: [src\commands\setup.js](https://github.com/vaaski/frtz/blob/v0.3.0/src\commands\setup.js)_
+_See code: [src/commands/setup.js](https://github.com/vaaski/frtz/blob/v0.3.0/src/commands/setup.js)_
 <!-- commandsstop -->
