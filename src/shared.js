@@ -43,6 +43,8 @@ module.exports = {
   readFile,
   login,
   extendLogin,
+  ipRegex: /^((\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/,
+  macRegex: /^[a-fA-F0-9:]{17}|[a-fA-F0-9]{12}$/,
   conf: (t, p = "default") => path.join(t.config.configDir, `config-${p}.json`),
   cache: (t, p = "default") => path.join(t.config.cacheDir, `cache-${p}.json`),
 }

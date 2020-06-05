@@ -78,7 +78,7 @@ class ListCommand extends Command {
         this.log(`saved to ${saveLocation}`)
       }
 
-      const oldCache = readFile(cache(this, flags.profile))
+      const oldCache = await readFile(cache(this, flags.profile))
       const cacheData = {
         ...oldCache,
         devices: [...data.active, ...data.passive],
