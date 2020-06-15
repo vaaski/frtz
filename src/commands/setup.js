@@ -7,7 +7,7 @@ class SetupCommand extends Command {
   async run() {
     const { flags } = this.parse(SetupCommand)
     const config = {}
-    let profile = false
+    let profile = "default"
 
     if (flags.host) config.host = flags.host
     else
