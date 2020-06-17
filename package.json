@@ -62,8 +62,8 @@
   },
   "repository": "vaaski/frtz",
   "scripts": {
-    "postpack": "rimraf oclif.manifest.json && node fixdocs.js",
-    "prepack": "oclif-dev manifest && oclif-dev readme",
+    "postpack": "rimraf oclif.manifest.json",
+    "prepack": "oclif-dev manifest && oclif-dev readme && node fixdocs.js",
     "test": "echo NO TESTS",
     "version": "oclif-dev readme && git add README.md"
   }
