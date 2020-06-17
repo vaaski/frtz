@@ -1,6 +1,6 @@
 {
   "name": "frtz",
-  "description": "Configure and monitor your FRITZ!Box directly from the command line.",
+  "description": "Access your FRITZ!Box configuration from the command line without using its web UI.",
   "version": "0.3.0",
   "author": "vaaski @vaaski",
   "bin": {
@@ -11,8 +11,10 @@
     "@oclif/command": "^1.6.1",
     "@oclif/config": "^1.15.1",
     "@oclif/plugin-help": "^3.0.1",
+    "cli-table3": "^0.6.0",
     "cli-ux": "^5.4.6",
-    "frtz-core": "^0.2.0"
+    "frtz-core": "^0.2.0",
+    "fs-jetpack": "^2.4.0"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.22.2",
@@ -47,6 +49,9 @@
     "topics": {
       "devices": {
         "description": "list and interact with devices"
+      },
+      "config": {
+        "description": "list profiles and configure frtz"
       }
     },
     "plugins": [

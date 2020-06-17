@@ -64,6 +64,128 @@ EXAMPLE
 # Commands
 
 <!-- commands -->
+* [`frtz config:profiles`](#frtz-configprofiles)
+* [`frtz devices:list`](#frtz-deviceslist)
+* [`frtz devices:wake DEVICE`](#frtz-deviceswake-device)
+* [`frtz help [COMMAND]`](#frtz-help-command)
+* [`frtz setup`](#frtz-setup)
+
+## `frtz config:profiles`
+
+Describe the command here
+
+```
+USAGE
+  $ frtz config:profiles
+
+OPTIONS
+  -n, --name=name  name to print
+
+DESCRIPTION
+  ...
+  Extra documentation goes here
+```
+
+_See code: [src\commands\config\profiles.js](https://github.com/vaaski/frtz/blob/v0.3.0/src\commands\config\profiles.js)_
+
+## `frtz devices:list`
+
+List both online and offline devices.
+
+```
+USAGE
+  $ frtz devices:list
+
+OPTIONS
+  -P, --profile=profile    use a profile
+  -h, --host=host          set hostname
+  -p, --password=password  set password
+  -s, --save               save output to dataDir
+  -u, --username=username  set username
+  -x, --extended           show extra columns
+  --output=csv|json|yaml   output in a more machine friendly format
+
+ALIASES
+  $ frtz list
+  $ frtz l
+
+EXAMPLE
+  $ frtz list -s -x -P work
+```
+
+_See code: [src\commands\devices\list.js](https://github.com/vaaski/frtz/blob/v0.3.0/src\commands\devices\list.js)_
+
+## `frtz devices:wake DEVICE`
+
+Wake a device from sleep with your FRITZ!Box
+
+```
+USAGE
+  $ frtz devices:wake DEVICE
+
+ARGUMENTS
+  DEVICE  The device to wake. Can be IP address, hostname or mac address.
+
+OPTIONS
+  -P, --profile=profile    use a profile
+  -h, --host=host          set hostname
+  -p, --password=password  set password
+  -u, --username=username  set username
+
+ALIASES
+  $ frtz wake
+  $ frtz w
+
+EXAMPLES
+  $ frtz wake 127.0.0.1
+  $ frtz w mycomputer
+```
+
+_See code: [src\commands\devices\wake.js](https://github.com/vaaski/frtz/blob/v0.3.0/src\commands\devices\wake.js)_
+
+## `frtz help [COMMAND]`
+
+display help for frtz
+
+```
+USAGE
+  $ frtz help [COMMAND]
+
+ARGUMENTS
+  COMMAND  command to show help for
+
+OPTIONS
+  --all  see all commands in CLI
+```
+
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.0.1/src\commands\help.ts)_
+
+## `frtz setup`
+
+Save configuration for fast access
+
+```
+USAGE
+  $ frtz setup
+
+OPTIONS
+  -P, --profile=profile    save to a profile
+  -h, --host=host          set hostname
+  -p, --password=password  set password
+  -u, --username=username  set username
+
+DESCRIPTION
+  Run the command without flags for interactive prompts or with flags to save them instantly.
+  This saves:
+  -Hostname
+  -Username
+  -Password (optional)
+
+  You can also save it to a specific profile using -P.
+```
+
+_See code: [src\commands\setup.js](https://github.com/vaaski/frtz/blob/v0.3.0/src\commands\setup.js)_
+<!-- commandsstop -->
 * [`frtz devices:list`](#frtz-deviceslist)
 * [`frtz devices:wake DEVICE`](#frtz-deviceswake-device)
 * [`frtz help [COMMAND]`](#frtz-help-command)

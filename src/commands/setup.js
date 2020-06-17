@@ -55,6 +55,7 @@ class SetupCommand extends Command {
 }
 
 SetupCommand.description = `Save configuration for fast access
+Run the command without flags for interactive prompts or with flags to save them instantly.
 This saves:
 -Hostname
 -Username

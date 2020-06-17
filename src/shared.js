@@ -39,10 +39,23 @@ const login = async (options, t, profile = "default") => {
   return _login
 }
 
+const objArrToTable = (arr, head) => {
+  head = head || Object.keys(arr[0])
+  return {
+    head,
+    content: arr.map(a => {
+      const aa = []
+      head.forEach(h => aa.push(a[h]))
+      return aa
+    }),
+  }
+}
+
 module.exports = {
   readFile,
   login,
   extendLogin,
+  objArrToTable,
   ipRegex: /^((\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/,
   macRegex: /^[a-fA-F0-9:]{17}|[a-fA-F0-9]{12}$/,
   conf: (t, p = "default") => path.join(t.config.configDir, `config-${p}.json`),
