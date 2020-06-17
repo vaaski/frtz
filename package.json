@@ -15,7 +15,8 @@
     "cli-table3": "^0.6.0",
     "cli-ux": "^5.4.6",
     "frtz-core": "^0.2.0",
-    "fs-jetpack": "^2.4.0"
+    "fs-jetpack": "^2.4.0",
+    "is-windows": "^1.0.2"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.22.2",
