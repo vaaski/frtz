@@ -1,14 +1,8 @@
 const { Command, flags: flg } = require("@oclif/command")
 const Table = require("cli-table3")
+const chalk = require("chalk")
 const { read, listAsync } = require("fs-jetpack")
-const {
-  conf,
-  // cache,
-  // readFile,
-  // login,
-  // extendLogin,
-  objArrToTable,
-} = require("../../shared")
+const { conf, objArrToTable } = require("../../shared")
 
 class ProfilesCommand extends Command {
   async run() {
@@ -35,6 +29,7 @@ class ProfilesCommand extends Command {
     })
     content.forEach(p => table.push(p))
 
+    this.log("\n " + chalk.underline("saved profiles"))
     this.log(table.toString())
   }
 }

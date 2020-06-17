@@ -10,6 +10,7 @@ const {
   ipRegex,
   macRegex,
   cache,
+  grey,
 } = require("../../shared")
 
 class WakeCommand extends Command {
@@ -22,6 +23,8 @@ class WakeCommand extends Command {
       this.error(
         "a password must be provided either as a flag or via setup config (run frtz setup)"
       )
+
+    this.log(grey(`using profile: ${config.profile || "default"}`))
 
     let device
     const findDevice = devices => {
@@ -45,9 +48,11 @@ class WakeCommand extends Command {
       const { cached, SID } = await login(config, this, flags.profile)
       const loginTime = Number(new Date()) - loginStarted
       cli.action.stop(
-        `logged in ${cached ? "from cache " : ""}(${Number(
-          (loginTime / 1000).toFixed(2)
-        )}s)`
+        grey(
+          `logged in ${cached ? "from cache " : ""}(${Number(
+            (loginTime / 1000).toFixed(2)
+          )}s)`
+        )
       )
 
       const listStarted = Number(new Date())
@@ -55,7 +60,9 @@ class WakeCommand extends Command {
       const data = await network.getDevices({ SID, host: config.host })
       await extendLogin(this, flags.profile)
       const listTime = Number(new Date()) - listStarted
-      cli.action.stop(`got list (${Number((listTime / 1000).toFixed(2))}s)`)
+      cli.action.stop(
+        grey(`got list (${Number((listTime / 1000).toFixed(2))}s)`)
+      )
 
       device = findDevice([...data.active, ...data.passive])
 
@@ -75,9 +82,11 @@ class WakeCommand extends Command {
       const { cached, SID } = await login(config, this, flags.profile)
       const loginTime = Number(new Date()) - loginStarted
       cli.action.stop(
-        `logged in ${cached ? "from cache " : ""}(${Number(
-          (loginTime / 1000).toFixed(2)
-        )}s)`
+        grey(
+          `logged in ${cached ? "from cache " : ""}(${Number(
+            (loginTime / 1000).toFixed(2)
+          )}s)`
+        )
       )
 
       const wakeStarted = Number(new Date())
@@ -87,13 +96,17 @@ class WakeCommand extends Command {
       const wakeTime = Number(new Date()) - wakeStarted
       if (woken)
         cli.action.stop(
-          `wake request has been sent (${Number(
-            (wakeTime / 1000).toFixed(2)
-          )}s)`
+          grey(
+            `wake request has been sent (${Number(
+              (wakeTime / 1000).toFixed(2)
+            )}s)`
+          )
         )
       else
         cli.action.stop(
-          `wake request has failed (${Number((wakeTime / 1000).toFixed(2))}s)`
+          grey(
+            `wake request has failed (${Number((wakeTime / 1000).toFixed(2))}s)`
+          )
         )
     } catch (error) {
       cli.action.stop("error")

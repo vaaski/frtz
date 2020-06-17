@@ -1,20 +1,36 @@
 const { Command, flags: flg } = require("@oclif/command")
 const fs = require("fs")
 const path = require("path")
+const Table = require("cli-table3")
+const chalk = require("chalk")
 const { network } = require("frtz-core")
 const { cli } = require("cli-ux")
-const { conf, cache, readFile, login, extendLogin } = require("../../shared")
+const {
+  conf,
+  cache,
+  readFile,
+  login,
+  extendLogin,
+  objArrToTable,
+  grey,
+} = require("../../shared")
 
 class ListCommand extends Command {
   async run() {
     const { flags } = this.parse(ListCommand)
     let config = await readFile(conf(this, flags.profile))
     config = { ...flags, ...config }
+    let tableContent = ["name", "ipv4", "mac"]
+
+    if (flags.extended)
+      tableContent = ["name", "ipv4", "ipv6", "type", "speed", "mac"]
 
     if (!config.password)
       this.error(
         "a password must be provided either as a flag or via setup config (run frtz setup)"
       )
+
+    this.log(`using profile: ${config.profile || "default"}`)
 
     try {
       const loginStarted = Number(new Date())
@@ -22,9 +38,11 @@ class ListCommand extends Command {
       const { cached, SID } = await login(config, this, flags.profile)
       const loginTime = Number(new Date()) - loginStarted
       cli.action.stop(
-        `logged in ${cached ? "from cache " : ""}(${Number(
-          (loginTime / 1000).toFixed(2)
-        )}s)`
+        grey(
+          `logged in ${cached ? "from cache " : ""}(${Number(
+            (loginTime / 1000).toFixed(2)
+          )}s)`
+        )
       )
 
       const listStarted = Number(new Date())
@@ -32,37 +50,28 @@ class ListCommand extends Command {
       const data = await network.getDevices({ SID, host: config.host })
       await extendLogin(this, flags.profile)
       const listTime = Number(new Date()) - listStarted
-      cli.action.stop(`got list (${Number((listTime / 1000).toFixed(2))}s)`)
+      cli.action.stop(
+        grey(`got list (${Number((listTime / 1000).toFixed(2))}s)`)
+      )
+      this.log("")
 
-      const defaultTable = {
-        name: { header: "online devices" },
-        ipv4: { minWidth: 16 },
-        ipv6: { extended: true },
-        mac: { minWidth: 19 },
+      const outputTable = devices => {
+        devices = devices.map(d => ({
+          ...d,
+          speed: d.port === "WLAN" ? d.sum_props : d.port,
+        }))
+        const { head, content } = objArrToTable(devices, tableContent)
+        const table = new Table({
+          head,
+        })
+        content.forEach(p => table.push(p))
+        this.log(table.toString())
       }
 
-      this.log("")
-      cli.table(
-        data.active,
-        {
-          ...defaultTable,
-          type: { extended: true },
-          port: {
-            header: "speed",
-            get: row => (row.port === "WLAN" ? row.sum_props : row.port),
-          },
-        },
-        flags
-      )
-      this.log("")
-      cli.table(
-        data.passive,
-        {
-          ...defaultTable,
-          name: { header: "offline devices" },
-        },
-        flags
-      )
+      this.log(" " + chalk.underline("active devices"))
+      outputTable(data.active)
+      this.log("\n " + chalk.underline("passive devices"))
+      outputTable(data.passive)
 
       if (flags.save) {
         this.log("")
@@ -97,15 +106,16 @@ ListCommand.aliases = ["list", "l"]
 
 ListCommand.examples = ["$ frtz list -s -x -P work"]
 
-ListCommand.args = []
-
 ListCommand.flags = {
   host: flg.string({ char: "h", description: "set hostname" }),
   username: flg.string({ char: "u", description: "set username" }),
   password: flg.string({ char: "p", description: "set password" }),
   save: flg.boolean({ char: "s", description: "save output to dataDir" }),
   profile: flg.string({ char: "P", description: "use a profile" }),
-  ...cli.table.flags({ only: ["extended", "output"] }),
+  extended: flg.boolean({
+    char: "x",
+    description: "show extended output (ipv6, connection type)",
+  }),
 }
 
 module.exports = ListCommand
