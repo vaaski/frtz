@@ -1,7 +1,7 @@
 {
   "name": "frtz",
   "description": "Access your FRITZ!Box configuration from the command line without using its web UI.",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "author": "vaaski @vaaski",
   "bin": {
     "frtz": "./bin/run"
