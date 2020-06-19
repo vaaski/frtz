@@ -3,12 +3,12 @@ const { auth } = require("frtz-core")
 const chalk = require("chalk")
 const { read, write } = require("fs-jetpack")
 
-const readFile = (...arg) => {
+const readFile = p => {
   // this is a wrapper
   // that also just returns an empty object
   // insead of an error.
   return new Promise(res => {
-    const r = read(...arg)
+    const r = read(p, "json")
     if (r) res(r)
     else res({})
   })
