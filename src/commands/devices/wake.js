@@ -41,9 +41,13 @@ class WakeCommand extends Command {
     const deviceCache = read(cache(this, flags.profile), "json")
     const foundInCache = findDevice(deviceCache.devices)
 
-    if (foundInCache) device = foundInCache
-    else {
-      this.log("no matching device found in cache, refreshing device list.")
+    if (foundInCache) {
+      device = foundInCache
+      this.log(grey("matching device found in cache."))
+    } else {
+      this.log(
+        grey("no matching device found in cache, refreshing device list.")
+      )
       const loginStarted = Number(new Date())
       cli.action.start("logging in")
       const { cached, SID } = await login(config, this, flags.profile)
