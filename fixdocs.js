@@ -1,6 +1,7 @@
-const fs = require("fs")
+const { read, write } = require("fs-jetpack")
 
-fs.readFile("./README.md", (err, data) => {
-  const d = data.toString().replace(/\\/g, "/")
-  fs.writeFileSync("./README.md", d)
-})
+// eslint-disable-next-line no-unused-expressions
+!(async () => {
+  const data = read("./README.md").replace(/\\/g, "/")
+  write("./README.md", data)
+})()

@@ -1,5 +1,5 @@
 const { Command, flags: flg } = require("@oclif/command")
-const fs = require("fs")
+const { write } = require("fs-jetpack")
 const path = require("path")
 const Table = require("cli-table3")
 const chalk = require("chalk")
@@ -82,7 +82,7 @@ class ListCommand extends Command {
 
         cli.action.start("saving list")
 
-        fs.writeFileSync(saveLocation, JSON.stringify(data))
+        write(saveLocation, data)
         cli.action.stop("saved")
         this.log(`saved to ${saveLocation}`)
       }
@@ -92,7 +92,7 @@ class ListCommand extends Command {
         ...oldCache,
         devices: [...data.active, ...data.passive],
       }
-      fs.writeFileSync(cache(this, flags.profile), JSON.stringify(cacheData))
+      write(cache(this, flags.profile), cacheData)
     } catch (error) {
       cli.action.stop("error")
       this.error(error)

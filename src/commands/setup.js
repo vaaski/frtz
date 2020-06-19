@@ -1,5 +1,5 @@
 const { Command, flags: flg } = require("@oclif/command")
-const fs = require("fs")
+const { write } = require("fs-jetpack")
 const { cli } = require("cli-ux")
 const { conf } = require("../shared")
 
@@ -50,7 +50,7 @@ class SetupCommand extends Command {
         profile = await cli.prompt("Profile")
     }
 
-    fs.writeFileSync(conf(this, profile), JSON.stringify(config))
+    write(conf(this, profile), config)
   }
 }
 

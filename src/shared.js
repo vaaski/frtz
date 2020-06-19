@@ -1,17 +1,16 @@
 const path = require("path")
-const fs = require("fs")
 const { auth } = require("frtz-core")
 const chalk = require("chalk")
+const { read, write } = require("fs-jetpack")
 
 const readFile = (...arg) => {
-  // this is a promise wrapper
+  // this is a wrapper
   // that also just returns an empty object
-  // in case of an error.
+  // insead of an error.
   return new Promise(res => {
-    fs.readFile(...arg, (err, data) => {
-      if (err) res({})
-      else res(JSON.parse(data))
-    })
+    const r = read(...arg)
+    if (r) res(r)
+    else res({})
   })
 }
 
@@ -19,10 +18,10 @@ const extendLogin = async (t, profile = "default") => {
   const loginCache = await readFile(
     path.join(t.config.cacheDir, `loginCache-${profile}.json`)
   )
-  fs.writeFileSync(
-    path.join(t.config.cacheDir, `loginCache-${profile}.json`),
-    JSON.stringify({ ...loginCache, expires: Date.now() + 1200e3 })
-  )
+  write(path.join(t.config.cacheDir, `loginCache-${profile}.json`), {
+    ...loginCache,
+    expires: Date.now() + 1200e3,
+  })
 }
 
 const login = async (options, t, profile = "default") => {
@@ -33,10 +32,10 @@ const login = async (options, t, profile = "default") => {
     return { ...loginCache[profile], cached: true }
 
   const _login = await auth.login(options)
-  fs.writeFileSync(
-    path.join(t.config.cacheDir, `loginCache-${profile}.json`),
-    JSON.stringify({ ...loginCache, [profile]: _login })
-  )
+  write(path.join(t.config.cacheDir, `loginCache-${profile}.json`), {
+    ...loginCache,
+    [profile]: _login,
+  })
   return _login
 }
 

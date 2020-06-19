@@ -1,5 +1,5 @@
 const { Command, flags: flg } = require("@oclif/command")
-const fs = require("fs")
+const { write, read } = require("fs-jetpack")
 const { network } = require("frtz-core")
 const { cli } = require("cli-ux")
 const {
@@ -37,7 +37,8 @@ class WakeCommand extends Command {
       return devices.filter(d => d.name === args.device)[0]
     }
 
-    const deviceCache = JSON.parse(fs.readFileSync(cache(this, flags.profile)))
+    // const deviceCache = JSON.parse(fs.readFileSync(cache(this, flags.profile)))
+    const deviceCache = read(cache(this, flags.profile), "json")
     const foundInCache = findDevice(deviceCache.devices)
 
     if (foundInCache) device = foundInCache
@@ -57,7 +58,10 @@ class WakeCommand extends Command {
 
       const listStarted = Number(new Date())
       cli.action.start("getting device list, please be paitent")
-      const data = await network.getDevices({ SID, host: config.host })
+      const data = await network.getDevices({
+        SID,
+        host: config.host,
+      })
       await extendLogin(this, flags.profile)
       const listTime = Number(new Date()) - listStarted
       cli.action.stop(
@@ -71,7 +75,8 @@ class WakeCommand extends Command {
         ...oldCache,
         devices: [...data.active, ...data.passive],
       }
-      fs.writeFileSync(cache(this, flags.profile), JSON.stringify(cacheData))
+      // fs.writeFileSync(cache(this, flags.profile), JSON.stringify(cacheData))
+      write(cache(this, flags.profile), cacheData)
     }
 
     if (!device) return this.error("no matching device found.")
@@ -91,7 +96,11 @@ class WakeCommand extends Command {
 
       const wakeStarted = Number(new Date())
       cli.action.start(`waking device: ${device.name}`)
-      const woken = await network.wake({ UID: device.UID, SID, ...config })
+      const woken = await network.wake({
+        UID: device.UID,
+        SID,
+        ...config,
+      })
       await extendLogin(this, flags.profile)
       const wakeTime = Number(new Date()) - wakeStarted
       if (woken)
