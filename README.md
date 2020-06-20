@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/vaaski/frtz" target="_blank">
-    <img src="https://colo.vaaski.com/static/frtz.svg">
+    <img src="https://colo.vaaski.com/static/frtz2.svg">
   </a>
 </p>
 <hr>
@@ -200,4 +200,4 @@ DESCRIPTION
 ```
 
 _See code: [src/commands/setup.js](https://github.com/vaaski/frtz/blob/v0.4.2/src/commands/setup.js)_
-<!-- commandsstop -->
+<!-- commandsstop -->
