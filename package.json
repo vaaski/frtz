@@ -11,6 +11,8 @@
     "@oclif/command": "^1.6.1",
     "@oclif/config": "^1.15.1",
     "@oclif/plugin-help": "^3.0.1",
+    "@oclif/plugin-not-found": "^1.2.4",
+    "@oclif/plugin-warn-if-update-available": "^1.7.0",
     "chalk": "^4.1.0",
     "cli-table3": "^0.6.0",
     "cli-ux": "^5.4.6",
@@ -58,8 +60,14 @@
         "description": "list profiles and configure frtz"
       }
     },
+    "@oclif/plugin-warn-if-update-available": {
+      "timeoutInDays": 7,
+      "message": "<%= config.name %> update available from <%= chalk.red(config.version) %> to <%= chalk.greenBright(latest) %>.\nrun <%= chalk.underline('npm i -g frtz@latest') %> to update."
+    },
     "plugins": [
-      "@oclif/plugin-help"
+      "@oclif/plugin-help",
+      "@oclif/plugin-not-found",
+      "@oclif/plugin-warn-if-update-available"
     ]
   },
   "repository": "vaaski/frtz",
