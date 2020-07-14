@@ -30,7 +30,7 @@ class ListCommand extends Command {
         "a password must be provided either as a flag or via setup config (run frtz setup)"
       )
 
-    this.log(`using profile: ${config.profile || "default"}`)
+    this.log(grey(`using profile: ${config.profile || "default"}`))
 
     try {
       const loginStarted = Number(new Date())
@@ -68,10 +68,14 @@ class ListCommand extends Command {
         this.log(table.toString())
       }
 
-      this.log(" " + chalk.underline("active devices"))
-      outputTable(data.active)
-      this.log("\n " + chalk.underline("passive devices"))
-      outputTable(data.passive)
+      if (!flags.passive) {
+        this.log(" " + chalk.underline("active devices"))
+        outputTable(data.active)
+      }
+      if (!flags.active) {
+        this.log("\n " + chalk.underline("passive devices"))
+        outputTable(data.passive)
+      }
 
       if (flags.save) {
         this.log("")
@@ -112,6 +116,8 @@ ListCommand.flags = {
   password: flg.string({ char: "p", description: "set password" }),
   save: flg.boolean({ char: "s", description: "save output to dataDir" }),
   profile: flg.string({ char: "P", description: "use a profile" }),
+  active: flg.boolean({ description: "show only active devices" }),
+  passive: flg.boolean({ description: "show only passive devices" }),
   extended: flg.boolean({
     char: "x",
     description: "show extended output (ipv6, connection type)",
