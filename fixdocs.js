@@ -18,6 +18,6 @@ const stopper = "<!-- commandsstop -->"
     const stopIndex = data.indexOf(stopper) + stopper.length + 1
     const dataOut = data.slice(0, stopIndex).replace(/\\/g, "/")
     write("./README.md", dataOut)
-    process.exit(1)
+    // process.exit(1)
   }
 })()
