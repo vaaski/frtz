@@ -48,6 +48,10 @@ export class FritzBox {
     return `${salt2}$${hash2.toString("hex")}`
   }
 
+  private SIDtoInt = (SID: string | number) => {
+    return typeof SID === "number" ? SID : Number.parseInt(SID)
+  }
+
   public login = async (password: string, username?: string) => {
     const response = await this.challengePBKDF2(password)
 
@@ -60,6 +64,12 @@ export class FritzBox {
       params: { version: 2 },
       body: loginParameters,
     })
+
+    if (this.SIDtoInt(loginResponse.SessionInfo.SID) === 0) {
+      throw new Error(
+        `Login failed, blocked for ${loginResponse.SessionInfo.BlockTime} seconds`
+      )
+    }
 
     return loginResponse
   }
