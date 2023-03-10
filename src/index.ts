@@ -1,13 +1,16 @@
 import type { FetchOptions } from "ofetch"
-import type { Session } from "../types"
+import type { Devices, Session } from "../types"
 
 import { pbkdf2Sync } from "node:crypto"
 import { ofetch } from "ofetch"
 import { XMLParser } from "fast-xml-parser"
 
+export type { Session } from "../types"
 export class FritzBox {
   private readonly parser = new XMLParser()
   private fett: typeof ofetch
+
+  private session?: Session.LoginResponse
 
   constructor(public readonly host = "http://fritz.box") {
     this.fett = ofetch.create({ baseURL: this.host })
@@ -71,6 +74,27 @@ export class FritzBox {
       )
     }
 
+    this.session = loginResponse
     return loginResponse
+  }
+
+  public getDeviceList = async (onlyActive = true) => {
+    if (!this.session) throw new Error("Not logged in")
+
+    const body = new URLSearchParams({
+      sid: this.session.SessionInfo.SID.toString(),
+      page: "netDev",
+      xhrId: "all",
+      xhr: "1",
+    })
+    if (onlyActive) body.set("initial", "")
+
+    const deviceList = await this.fett<Devices.List>("data.lua", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: body,
+    })
+
+    return deviceList
   }
 }
